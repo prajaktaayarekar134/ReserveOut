@@ -1,0 +1,108 @@
+version: "3.3"
+services:
+  eureka-server:
+    build: eureka-server/
+    container_name: eureka-server
+    restart: always
+    hostname: localhost
+    ports:
+      - 8076:8076
+  api-gateway:
+    build: api-gateway/
+    container_name: api-gateway
+    depends_on:
+      - eureka-server
+    restart: always
+    network_mode: host
+    hostname: localhost
+    ports:
+      - 8086:8086
+
+
+
+  authentication-service:
+    build: authentication-service/
+    container_name: authentication-service
+    restart: always
+    network_mode: host
+    hostname: localhost
+    ports:
+      - 9595:9595
+
+  user-service:
+      build: user-service/
+      container_name: user-service
+      restart: always
+      network_mode: host
+      hostname: localhost
+      ports:
+        - 9393:9393
+
+  restaurant-owner-service:
+      build: restaurant-owner-service/
+      container_name: restaurant-owner-service
+      restart: always
+      network_mode: host
+      hostname: localhost
+      ports:
+        - 8083:8083
+
+  recommendation-service:
+    build: recommendation-service/
+    container_name: recommendation-service
+    restart: always
+    network_mode: host
+    hostname: localhost
+    ports:
+      - 8585:8585
+
+  booking-service:
+    build: booking-service/
+    container_name: booking-service
+    restart: always
+    network_mode: host
+    hostname: localhost
+    ports:
+      - 9090:9090
+
+  payment-service:
+    build: payment-service/
+    container_name: payment-service
+    restart: always
+    network_mode: host
+    hostname: localhost
+    ports:
+      - 9598:9598
+
+  chat-service:
+    build: chat-service/
+    container_name: chat-service
+    restart: always
+    network_mode: host
+    hostname: localhost
+    ports:
+      - 9597:9597
+
+#  config-service:
+#    build: config-service/
+#    container_name: config-service
+#    restart: always
+#    hostname: localhost
+#    ports:
+#      - 8888:8888
+
+  email-service:
+    build: email-service/
+    container_name: email-service
+    restart: always
+    network_mode: host
+    hostname: localhost
+    ports:
+      - 8081:8081
+
+
+
+
+
+
+  
