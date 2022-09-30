@@ -1,0 +1,97 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8076/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+server:
+  port: 8086
+
+#spring:
+#  application:
+#    name: "api-gateway"
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: api-gateway
+  cloud:
+    compatibility-verifier:
+      enabled: false
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            exposedHeaders: "*"
+      routes:
+
+        - id: Email-service
+          uri: http://localhost:8687
+#            ib://EMAIL-SERVICE
+          predicates:
+            - Path=/email/**
+          filters:
+            - RewritePath=/email(?<segment>/?.*), $\{segment}
+
+
+        - id: Bookingservice
+          uri: http://localhost:9090
+          predicates:
+              - Path=/booking/**
+          filters:
+              - RewritePath=/booking(?<segment>/?.*), $\{segment}
+
+        - id: Authenticationservice
+          uri: http://localhost:9595
+          predicates:
+            - Path=/authentication/**
+          filters:
+            - RewritePath=/authentication(?<segment>/?.*), $\{segment}
+
+        - id: Paymentservice
+          uri: http://localhost:9598
+          predicates:
+            - Path=/payment/**
+          filters:
+            - RewritePath=/payment(?<segment>/?.*), $\{segment}
+
+        - id: Userservice
+          uri: http://localhost:9091
+          predicates:
+            - Path=/user/**
+          filters:
+            - RewritePath=/user(?<segment>/?.*), $\{segment}
+
+        - id: Restaurantownerservice
+          uri: http://localhost:8083
+          predicates:
+            - Path=/owner/**
+          filters:
+            - RewritePath=/owner(?<segment>/?.*), $\{segment}
+
+        - id: ChatService
+          uri: http://localhost:9597
+          predicates:
+            - Path=/chat/**
+          filters:
+            - RewritePath=/chat(?<segment>/?.*), $\{segment}
+
+        - id: RecommendationService
+          uri: http://localhost:8585
+          predicates:
+            - Path=/recommendation/**
+          filters:
+            - RewritePath=/recommendation(?<segment>/?.*), $\{segment}
+
+
+
+
+
+
